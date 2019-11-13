@@ -2,39 +2,61 @@ import dash
 import dash_core_components as dcc
 import dash_html_components as html
 import plotly.graph_objs as go
+import numpy as np
 import pandas as pd
 
-# Launch the application:
 app = dash.Dash()
 
-# Create a DataFrame from the .csv file:
+# Creating DATA
+
 df = pd.read_csv('epl_stats.csv')
+labels = df.team
+app.layout = html.Div([dcc.Graph(id='scatterplot',
+                    figure = {'data':[
+                            go.Scatter(
+                            x=df.team,
+                            y=df.attendance,
+                            mode='markers',
+                            marker = {
+                                'size':12,
+                                'color': 'rgb(51,204,153)',
+                                'symbol':'pentagon',
+                                'line':{'width':2}
+                            }
+                            )],
+                    'layout':go.Layout(title='Attendance of EPL Teams',
+                                        yaxis = {'title':'Attendance'})}
+                    ),
 
-# Create a Dash layout that contains a Graph component:
-app.layout = html.Div([
-    dcc.Graph(
-        id='number of wins',
-        figure={
-            'data': [
-                go.Scatter(
-                   x=df[df['team'] == i]['wins'],
-                    y=df[df['team'] == i]['losses'],
-                   fill='tonexty',
-                    name=i,
-                    mode = 'markers'
-                )for i in df.team.unique()
-            ],
-            'layout': go.Layout(
-                title = 'Number of wins',
-                xaxis = {'title': 'Number of goals for'},
-                yaxis = {'title': 'Number of goals against'},
-                legend={'x': 0, 'y': -2},
-                hovermode='closest'
-            )
-        }
-    )
-])
+                    dcc.Graph(id='scatterplot2',
+                    figure = {'data':[
+                            go.Scatter(
+                            x=df.team,
+                            y=df.goal_diff,
+                            mode='markers',
+                            marker = {
+                                'size':12,
+                                'color': 'rgb(51,204,153)',
+                                'symbol':'pentagon',
+                                'line':{'width':2}
+                            }
+                            )],
+                    'layout':go.Layout(title='Goal Difference',
+                                        yaxis = {'title':'Goal Difference'})}
+                    ),
+    
+                    dcc.Graph(id='scatterplot3',
+                                        figure = {'data':[
+                                                go.Bar(
+                                                x=df.team,
+                                                y=df.wins,
+                                                )],
+                                        'layout':go.Layout(title='Wins',
+                                         yaxis = {'title':'Wins'})
+                                         }
+                                        )
+                                        ])
+                   
 
-# Add the server clause:
 if __name__ == '__main__':
     app.run_server(debug=True)
