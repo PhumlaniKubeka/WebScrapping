@@ -44,18 +44,39 @@ app.layout = html.Div([dcc.Graph(id='scatterplot',
                     'layout':go.Layout(title='Goal Difference',
                                         yaxis = {'title':'Goal Difference'})}
                     ),
+        dcc.Graph(id='Bar',
+                     figure = {'data':[
+                            go.Bar(
+                            x=df.team,
+                            y=df.wins,
+                            name='wins',
+                            ),
+                            go.Bar(
+                            x=df.team,
+                            y=df.wins,
+                            name='losses',
+                            ),
+                            go.Bar(
+                            x=df.team,
+                            y=df.draws,
+                            name='Draws',
+                            )
+                     
+                            
+                            ],
+                    'layout':go.Layout(title='Wins,Losses & Draws per team',
+                                        yaxis = {'title':'Stats'})}
+                    ),
     
                     dcc.Graph(id='scatterplot3',
                                         figure = {'data':[
-                                                go.Bar(
-                                                x=df.team,
-                                                y=df.wins,
+                                                go.Pie(
+                                                values = df.wins,
+                                                labels= df.team
                                                 )],
-                                        'layout':go.Layout(title='Wins',
-                                         yaxis = {'title':'Wins'})
-                                         }
-                                        )
-                                        ])
+                                        'layout':go.Layout(title='Wins percentage of Teams',
+                                         yaxis = {'title':'Wins'})}
+                                        )])
                    
 
 if __name__ == '__main__':
