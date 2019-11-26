@@ -9,7 +9,7 @@ source = requests.get(url).text
 
 soup = BeautifulSoup(source, 'lxml')
 
-csv_file = open('epl_stats.csv', 'w')
+csv_file = open('epl_stats_2.csv', 'w')
 
 csv_writer = csv.writer(csv_file)
 csv_writer.writerow(['team', 'apps','wins','draws','losses','goals_for','goals_against','goal_diff','attendance'])
